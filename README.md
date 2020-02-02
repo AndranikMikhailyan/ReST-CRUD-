@@ -1,2 +1,2 @@
-[![Build Status](https://travis-ci.org/AndranikMikhailyan/ticket-manager.svg?branch=master)](https://travis-ci.org/AndranikMikhailyan/ticket-manager)
+[![Build Status](https://travis-ci.org/AndranikMikhailyan/ReST-CRUD-.svg?branch=master)](https://travis-ci.org/AndranikMikhailyan/ReST-CRUD-)
 
