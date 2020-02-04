@@ -5,8 +5,8 @@ services:
     - mysql
 
 before_install:
-  - mysql -e 'SET PASSWORD FOR root@localhost=PASSWORD('root');'
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS restapi;'
+  - mysql -e "SET PASSWORD FOR root@localhost=PASSWORD('root');"
+  - mysql -e "CREATE DATABASE IF NOT EXISTS restapi;"
 
 cache:
   directories:
