@@ -8,6 +8,7 @@ before_install:
   - sudo mysqladmin -u root password root
 #  - mysql -u root -p root
   - mysql -p root -e 'CREATE DATABASE IF NOT EXISTS restapi;'
+  - root
 
 cache:
   directories:
