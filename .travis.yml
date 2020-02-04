@@ -5,7 +5,7 @@ services:
     - mysql
 
 before_install:
-  - mysql -e 'UPDATE mysql.user SET authentication_string=PASSWORD('root') WHERE user='root';'
+  - mysql -e 'ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';'
   - mysql -e 'FLUSH PRIVILEGES;'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS restapi;'
 
