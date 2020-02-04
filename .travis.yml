@@ -4,6 +4,10 @@ jdk: oraclejdk12
 services:
     - mysql
 
+before_install:
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+#  - mysql -e 'CREATE DATABASE IF NOT EXISTS restapi;
+
 cache:
   directories:
   - $HOME/.m2
