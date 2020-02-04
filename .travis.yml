@@ -6,7 +6,6 @@ services:
 
 before_install:
   - sudo mysqladmin -u root password root
-
   - mysql -u root -proot -e 'CREATE DATABASE IF NOT EXISTS restapi;'
 
 cache:
