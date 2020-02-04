@@ -6,7 +6,7 @@ services:
 
 before_install:
   - sudo mysqladmin -u root password root
-  - mysql -u root -proot;
+  - sudo mysql_config_editor set --login-path=local --host=localhost --user=root --password=root
   - mysql -e 'CREATE DATABASE IF NOT EXISTS restapi;'
 
 cache:
