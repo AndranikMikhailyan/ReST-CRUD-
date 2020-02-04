@@ -5,10 +5,15 @@ services:
     - mysql
 
 before_install:
-  - mysql -e "SELECT plugin from mysql.user where User='root';"
-  - mysql -e "UPDATE mysql.user SET plugin = 'mysql_native_password', authentication_string = PASSWORD('root') WHERE User = 'root';"
+  - sudo service mysql stop
+  - sudo mysqld --skip-grant-tables --user=root
+  - mysql -u root
+#  - mysql -e "SELECT plugin from mysql.user where User='root';"
+  - mysql -e "UPDATE mysql.user SET authentication_string=PASSWORD('root'), plugin='mysql_native_password' WHERE User='root' AND Host='localhost';"
   - mysql -e 'FLUSH PRIVILEGES;'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS restapi;'
+
+
 
 cache:
   directories:
