@@ -1,2 +1,13 @@
 language: java
 jdk: oraclejdk12
+
+cache:
+  directories:
+  - $HOME/.m2
+
+  notifications:
+    email:
+      recipients:
+        - andranik.stav@mail.ru
+      on_success: never # default: change
+      on_failure: always # default: always
