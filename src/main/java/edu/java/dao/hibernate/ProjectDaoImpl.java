@@ -9,12 +9,13 @@ import java.util.List;
 
 public class ProjectDaoImpl implements IProjectDao {
     @Override
-    public void add(Project entity) {
+    public Long add(Project entity) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(entity);
+        Long id = (Long) session.save(entity);
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     @Override

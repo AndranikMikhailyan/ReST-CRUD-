@@ -16,8 +16,8 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     @Override
-    public void add(Team entity) {
-        teamDao.add(entity);
+    public Long add(Team entity) {
+        return teamDao.add(entity);
     }
 
     @Override

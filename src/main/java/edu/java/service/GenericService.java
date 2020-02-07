@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface GenericService<T, ID> {
 
-    void add(T entity);
+    ID add(T entity);
 
     void update(T entity);
 

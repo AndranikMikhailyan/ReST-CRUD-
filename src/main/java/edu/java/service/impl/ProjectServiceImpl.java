@@ -16,8 +16,8 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public void add(Project entity) {
-        projectDao.add(entity);
+    public Long add(Project entity) {
+        return projectDao.add(entity);
     }
 
     @Override

@@ -10,12 +10,13 @@ import java.util.List;
 
 public class TeamDaoImpl implements ITeamDao {
     @Override
-    public void add(Team entity) {
+    public Long add(Team entity) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(entity);
+        Long id = (Long) session.save(entity);
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     @Override

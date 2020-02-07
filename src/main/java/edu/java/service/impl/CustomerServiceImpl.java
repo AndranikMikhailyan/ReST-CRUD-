@@ -16,8 +16,8 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public void add(Customer entity) {
-        customerDao.add(entity);
+    public Long add(Customer entity) {
+        return customerDao.add(entity);
     }
 
     @Override

@@ -9,12 +9,13 @@ import java.util.List;
 
 public class CustomerDaoImpl implements ICustomerDao {
     @Override
-    public void add(Customer entity) {
+    public Long add(Customer entity) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(entity);
+        Long id = (Long) session.save(entity);
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     @Override

@@ -9,12 +9,13 @@ import java.util.List;
 
 public class SkillDaoImpl implements ISkillDao {
     @Override
-    public void add(Skill entity) {
+    public Long add(Skill entity) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(entity);
+        Long id = (Long) session.save(entity);
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     @Override

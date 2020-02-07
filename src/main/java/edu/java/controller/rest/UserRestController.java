@@ -1,61 +1,102 @@
 package edu.java.controller.rest;
 
+import com.google.gson.Gson;
+import edu.java.model.Customer;
 import edu.java.model.User;
+import edu.java.model.dto.CustomerDto;
+import edu.java.model.dto.UserDto;
 import edu.java.service.IUserService;
+import edu.java.service.impl.CustomerServiceImpl;
 import edu.java.service.impl.UserServiceImpl;
+import edu.java.util.CustomerDtoMapper;
+import edu.java.util.UserDtoMapper;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Path("/user")
-public class UserRestController {
+@WebServlet(urlPatterns = "/api/v1/users")
+public class UserRestController extends HttpServlet {
 
     private IUserService userService;
+    private Gson gson;
 
-    public UserRestController() {
+    @Override
+    public void init() throws ServletException {
         this.userService = new UserServiceImpl();
+        this.gson = new Gson();
     }
 
-    @GET
-    @Path("/get/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") Long id) {
-        return Response.status(200).entity(userService.getById(id)).build();
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter out = resp.getWriter();
+        if (id == null) {
+            List<User> users = this.userService.getList();
+            List<UserDto> usersDto = users.stream()
+                    .map(user -> UserDtoMapper.toUserDto(user))
+                    .collect(Collectors.toList());
+            String usersJson = this.gson.toJson(usersDto);
+            out.write(usersJson);
+        } else {
+            User user = this.userService.getById(Long.parseLong(id));
+            UserDto userDto = UserDtoMapper.toUserDto(user);
+            String UserJson = this.gson.toJson(userDto);
+            out.write(UserJson);
+        }
+        resp.setStatus(200);
+        out.flush();
     }
 
-    @GET
-    @Path("/get-all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getAllUser() {
-        return userService.getList();
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        PrintWriter out = resp.getWriter();
+        BufferedReader in = req.getReader();
+        StringBuilder json = new StringBuilder();
+        in.lines().forEach(s -> json.append(s));
+        UserDto userDto = this.gson.fromJson(json.toString(), UserDto.class);
+        User user = UserDtoMapper.toUser(userDto);
+        Long id = this.userService.add(user);
+        userDto.setId(id);
+        String response = this.gson.toJson(userDto);
+        resp.setStatus(200);
+        out.write(response);
+        out.flush();
     }
 
-    @POST
-    @Path("/create-user")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(User user) {
-        userService.add(user);
-        return Response.status(200).entity(user).build();
-    }
-    @DELETE
-    @Path("/delete")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteUser(@QueryParam("id") Long id) {
-        User userServiceById = userService.getById(id);
-        userService.remove(id);
-        return Response.status(200).entity(userServiceById).build();
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        BufferedReader in = req.getReader();
+        StringBuilder json = new StringBuilder();
+        in.lines().forEach(s -> json.append(s));
+        UserDto userDto = this.gson.fromJson(json.toString(), UserDto.class);
+        User user = UserDtoMapper.toUser(userDto);
+        this.userService.update(user);
+        resp.setStatus(200);
     }
 
-    @PUT
-    @Path("/update")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateUser(User user) {
-        userService.update(user);
-        User userServiceById = userService.getById(user.getId());
-        return Response.status(200).entity(userServiceById).build();
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        this.userService.remove(Long.parseLong(id));
+        resp.setStatus(200);
     }
 }

@@ -16,8 +16,8 @@ public class SkillServiceImpl implements ISkillService {
     }
 
     @Override
-    public void add(Skill entity) {
-        skillDao.add(entity);
+    public Long add(Skill entity) {
+        return skillDao.add(entity);
     }
 
     @Override

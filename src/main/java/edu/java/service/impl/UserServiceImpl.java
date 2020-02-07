@@ -16,8 +16,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void add(User entity) {
-        userDao.add(entity);
+    public Long add(User entity) {
+        return userDao.add(entity);
     }
 
     @Override

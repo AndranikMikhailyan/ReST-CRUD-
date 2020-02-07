@@ -10,12 +10,13 @@ import java.util.List;
 
 public class UserDaoImpl implements IUserDao {
     @Override
-    public void add(User entity) {
+    public Long add(User entity) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(entity);
+        Long id = (Long) session.save(entity);
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     @Override
