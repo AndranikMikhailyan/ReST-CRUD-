@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="0.2" author="M.A.G.">
+        <insert tableName="customers">
+            <column name="name" value="Customer 1"/>
+        </insert>
+        <insert tableName="projects">
+            <column name="name" value="Project 1"/>
+            <column name="badget" value="15000.5"/>
+            <column name="customer_id" value="1"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="name" value="Team 1"/>
+        </insert>
+        <insert tableName="skills">
+            <column name="name" value="Skill 1"/>
+        </insert>
+        <insert tableName="users">
+            <column name="first_name" value="Ivan"/>
+            <column name="last_name" value="Ivanov"/>
+            <column name="specialty" value="developer"/>
+            <column name="team_id" value="1"/>
+        </insert>
+        <insert tableName="teams_projects">
+            <column name="team_id" value="1"/>
+            <column name="project_id" value="1"/>
+        </insert>
+        <insert tableName="users_skills">
+            <column name="user_id" value="1"/>
+            <column name="skill_id" value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

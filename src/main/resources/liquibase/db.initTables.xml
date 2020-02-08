@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="0.1" author="M.A.G.">
+        <createTable tableName="customers">
+            <column name="id" type="int">
+                <constraints primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addAutoIncrement tableName="customers" columnName="id" columnDataType="int"/>
+        <createTable tableName="projects">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="badget" type="real">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="int">
+                <constraints foreignKeyName="projects_customer_id" referencedTableName="customers" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addAutoIncrement tableName="projects" columnName="id" columnDataType="int"/>
+        <createTable tableName="teams">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addAutoIncrement tableName="teams" columnName="id" columnDataType="int"/>
+        <createTable tableName="teams_projects">
+            <column name="team_id" type="int">
+                <constraints foreignKeyName="teams_projects_team_id" referencedTableName="teams" referencedColumnNames="id"/>
+            </column>
+            <column name="project_id" type="int">
+                <constraints foreignKeyName="teams_projects_project_id" referencedTableName="projects" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="teams_projects" columnNames="team_id, project_id"/>
+        <createTable tableName="skills">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addAutoIncrement tableName="skills" columnName="id" columnDataType="int"/>
+        <createTable tableName="users">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialty" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="team_id" type="int">
+                <constraints foreignKeyName="users_team_id" referencedTableName="teams" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addAutoIncrement tableName="users" columnName="id" columnDataType="int"/>
+        <createTable tableName="users_skills">
+            <column name="user_id" type="int">
+                <constraints foreignKeyName="users_skills_user_id" referencedTableName="users" referencedColumnNames="id"/>
+            </column>
+            <column name="skill_id" type="int">
+                <constraints foreignKeyName="users_skills_skill_id" referencedTableName="skills" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="users_skills" columnNames="user_id, skill_id"/>
+    </changeSet>
+</databaseChangeLog>
